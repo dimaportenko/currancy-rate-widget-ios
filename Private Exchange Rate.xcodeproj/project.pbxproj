@@ -14,6 +14,22 @@
 		71E7F67B2A0942A1002E042A /* Private_Exchange_RateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F67A2A0942A1002E042A /* Private_Exchange_RateTests.swift */; };
 		71E7F6852A0942A1002E042A /* Private_Exchange_RateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F6842A0942A1002E042A /* Private_Exchange_RateUITests.swift */; };
 		71E7F6872A0942A1002E042A /* Private_Exchange_RateUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F6862A0942A1002E042A /* Private_Exchange_RateUITestsLaunchTests.swift */; };
+		71E7F69A2A0942E3002E042A /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71E7F6992A0942E3002E042A /* WidgetKit.framework */; };
+		71E7F69C2A0942E3002E042A /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71E7F69B2A0942E3002E042A /* SwiftUI.framework */; };
+		71E7F69F2A0942E3002E042A /* Private_ExchangeBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F69E2A0942E3002E042A /* Private_ExchangeBundle.swift */; };
+		71E7F6A12A0942E3002E042A /* Private_ExchangeLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F6A02A0942E3002E042A /* Private_ExchangeLiveActivity.swift */; };
+		71E7F6A32A0942E3002E042A /* Private_Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F6A22A0942E3002E042A /* Private_Exchange.swift */; };
+		71E7F6A62A0942E4002E042A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71E7F6A52A0942E4002E042A /* Assets.xcassets */; };
+		71E7F6A82A0942E4002E042A /* Private_Exchange.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F6A42A0942E3002E042A /* Private_Exchange.intentdefinition */; };
+		71E7F6A92A0942E4002E042A /* Private_Exchange.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F6A42A0942E3002E042A /* Private_Exchange.intentdefinition */; };
+		71E7F6AC2A0942E4002E042A /* Private ExchangeExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 71E7F6972A0942E3002E042A /* Private ExchangeExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		71E7F6B32A0943E2002E042A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 71E7F6B22A0943E2002E042A /* Alamofire */; };
+		71E7F6B52A0943FA002E042A /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F6B42A0943FA002E042A /* CurrencyRate.swift */; };
+		71E7F6B72A09442D002E042A /* CurrencyRateFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F6B62A09442D002E042A /* CurrencyRateFetcher.swift */; };
+		71E7F6B82A09451C002E042A /* CurrencyRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F6B42A0943FA002E042A /* CurrencyRate.swift */; };
+		71E7F6B92A0946A1002E042A /* CurrencyRateFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F6B62A09442D002E042A /* CurrencyRateFetcher.swift */; };
+		71E7F6BB2A0953B8002E042A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 71E7F6BA2A0953B8002E042A /* Alamofire */; };
+		71E7F6BE2A0968D2002E042A /* Private_Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E7F6A22A0942E3002E042A /* Private_Exchange.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +47,28 @@
 			remoteGlobalIDString = 71E7F6652A09429F002E042A;
 			remoteInfo = "Private Exchange Rate";
 		};
+		71E7F6AA2A0942E4002E042A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 71E7F65E2A09429F002E042A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 71E7F6962A0942E3002E042A;
+			remoteInfo = "Private ExchangeExtension";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		71E7F6B02A0942E4002E042A /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				71E7F6AC2A0942E4002E042A /* Private ExchangeExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		71E7F6662A09429F002E042A /* Private Exchange Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Private Exchange Rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +81,18 @@
 		71E7F6802A0942A1002E042A /* Private Exchange RateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Private Exchange RateUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71E7F6842A0942A1002E042A /* Private_Exchange_RateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Private_Exchange_RateUITests.swift; sourceTree = "<group>"; };
 		71E7F6862A0942A1002E042A /* Private_Exchange_RateUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Private_Exchange_RateUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		71E7F6972A0942E3002E042A /* Private ExchangeExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Private ExchangeExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		71E7F6992A0942E3002E042A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		71E7F69B2A0942E3002E042A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		71E7F69E2A0942E3002E042A /* Private_ExchangeBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Private_ExchangeBundle.swift; sourceTree = "<group>"; };
+		71E7F6A02A0942E3002E042A /* Private_ExchangeLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Private_ExchangeLiveActivity.swift; sourceTree = "<group>"; };
+		71E7F6A22A0942E3002E042A /* Private_Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Private_Exchange.swift; sourceTree = "<group>"; };
+		71E7F6A42A0942E3002E042A /* Private_Exchange.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Private_Exchange.intentdefinition; sourceTree = "<group>"; };
+		71E7F6A52A0942E4002E042A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		71E7F6A72A0942E4002E042A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		71E7F6B42A0943FA002E042A /* CurrencyRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRate.swift; sourceTree = "<group>"; };
+		71E7F6B62A09442D002E042A /* CurrencyRateFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRateFetcher.swift; sourceTree = "<group>"; };
+		71E7F6BC2A096852002E042A /* Private-Exchange-Rate-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Private-Exchange-Rate-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71E7F6B32A0943E2002E042A /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +118,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		71E7F6942A0942E3002E042A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71E7F6BB2A0953B8002E042A /* Alamofire in Frameworks */,
+				71E7F69C2A0942E3002E042A /* SwiftUI.framework in Frameworks */,
+				71E7F69A2A0942E3002E042A /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -77,6 +137,8 @@
 				71E7F6682A09429F002E042A /* Private Exchange Rate */,
 				71E7F6792A0942A1002E042A /* Private Exchange RateTests */,
 				71E7F6832A0942A1002E042A /* Private Exchange RateUITests */,
+				71E7F69D2A0942E3002E042A /* Private Exchange */,
+				71E7F6982A0942E3002E042A /* Frameworks */,
 				71E7F6672A09429F002E042A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -87,6 +149,7 @@
 				71E7F6662A09429F002E042A /* Private Exchange Rate.app */,
 				71E7F6762A0942A1002E042A /* Private Exchange RateTests.xctest */,
 				71E7F6802A0942A1002E042A /* Private Exchange RateUITests.xctest */,
+				71E7F6972A0942E3002E042A /* Private ExchangeExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -94,7 +157,10 @@
 		71E7F6682A09429F002E042A /* Private Exchange Rate */ = {
 			isa = PBXGroup;
 			children = (
+				71E7F6BC2A096852002E042A /* Private-Exchange-Rate-Info.plist */,
 				71E7F6692A09429F002E042A /* Private_Exchange_RateApp.swift */,
+				71E7F6B42A0943FA002E042A /* CurrencyRate.swift */,
+				71E7F6B62A09442D002E042A /* CurrencyRateFetcher.swift */,
 				71E7F66B2A09429F002E042A /* ContentView.swift */,
 				71E7F66D2A0942A0002E042A /* Assets.xcassets */,
 				71E7F66F2A0942A0002E042A /* Preview Content */,
@@ -127,6 +193,28 @@
 			path = "Private Exchange RateUITests";
 			sourceTree = "<group>";
 		};
+		71E7F6982A0942E3002E042A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				71E7F6992A0942E3002E042A /* WidgetKit.framework */,
+				71E7F69B2A0942E3002E042A /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		71E7F69D2A0942E3002E042A /* Private Exchange */ = {
+			isa = PBXGroup;
+			children = (
+				71E7F69E2A0942E3002E042A /* Private_ExchangeBundle.swift */,
+				71E7F6A02A0942E3002E042A /* Private_ExchangeLiveActivity.swift */,
+				71E7F6A22A0942E3002E042A /* Private_Exchange.swift */,
+				71E7F6A42A0942E3002E042A /* Private_Exchange.intentdefinition */,
+				71E7F6A52A0942E4002E042A /* Assets.xcassets */,
+				71E7F6A72A0942E4002E042A /* Info.plist */,
+			);
+			path = "Private Exchange";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -137,12 +225,17 @@
 				71E7F6622A09429F002E042A /* Sources */,
 				71E7F6632A09429F002E042A /* Frameworks */,
 				71E7F6642A09429F002E042A /* Resources */,
+				71E7F6B02A0942E4002E042A /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				71E7F6AB2A0942E4002E042A /* PBXTargetDependency */,
 			);
 			name = "Private Exchange Rate";
+			packageProductDependencies = (
+				71E7F6B22A0943E2002E042A /* Alamofire */,
+			);
 			productName = "Private Exchange Rate";
 			productReference = 71E7F6662A09429F002E042A /* Private Exchange Rate.app */;
 			productType = "com.apple.product-type.application";
@@ -183,6 +276,26 @@
 			productReference = 71E7F6802A0942A1002E042A /* Private Exchange RateUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		71E7F6962A0942E3002E042A /* Private ExchangeExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 71E7F6AD2A0942E4002E042A /* Build configuration list for PBXNativeTarget "Private ExchangeExtension" */;
+			buildPhases = (
+				71E7F6932A0942E3002E042A /* Sources */,
+				71E7F6942A0942E3002E042A /* Frameworks */,
+				71E7F6952A0942E3002E042A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Private ExchangeExtension";
+			packageProductDependencies = (
+				71E7F6BA2A0953B8002E042A /* Alamofire */,
+			);
+			productName = "Private ExchangeExtension";
+			productReference = 71E7F6972A0942E3002E042A /* Private ExchangeExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -204,6 +317,9 @@
 						CreatedOnToolsVersion = 14.3;
 						TestTargetID = 71E7F6652A09429F002E042A;
 					};
+					71E7F6962A0942E3002E042A = {
+						CreatedOnToolsVersion = 14.3;
+					};
 				};
 			};
 			buildConfigurationList = 71E7F6612A09429F002E042A /* Build configuration list for PBXProject "Private Exchange Rate" */;
@@ -215,6 +331,9 @@
 				Base,
 			);
 			mainGroup = 71E7F65D2A09429F002E042A;
+			packageReferences = (
+				71E7F6B12A0943E2002E042A /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 71E7F6672A09429F002E042A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -222,6 +341,7 @@
 				71E7F6652A09429F002E042A /* Private Exchange Rate */,
 				71E7F6752A0942A1002E042A /* Private Exchange RateTests */,
 				71E7F67F2A0942A1002E042A /* Private Exchange RateUITests */,
+				71E7F6962A0942E3002E042A /* Private ExchangeExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -250,6 +370,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		71E7F6952A0942E3002E042A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71E7F6A62A0942E4002E042A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -257,8 +385,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71E7F6BE2A0968D2002E042A /* Private_Exchange.swift in Sources */,
+				71E7F6B72A09442D002E042A /* CurrencyRateFetcher.swift in Sources */,
+				71E7F6B52A0943FA002E042A /* CurrencyRate.swift in Sources */,
 				71E7F66C2A09429F002E042A /* ContentView.swift in Sources */,
 				71E7F66A2A09429F002E042A /* Private_Exchange_RateApp.swift in Sources */,
+				71E7F6A92A0942E4002E042A /* Private_Exchange.intentdefinition in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +411,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		71E7F6932A0942E3002E042A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71E7F6A32A0942E3002E042A /* Private_Exchange.swift in Sources */,
+				71E7F6A82A0942E4002E042A /* Private_Exchange.intentdefinition in Sources */,
+				71E7F6B92A0946A1002E042A /* CurrencyRateFetcher.swift in Sources */,
+				71E7F69F2A0942E3002E042A /* Private_ExchangeBundle.swift in Sources */,
+				71E7F6A12A0942E3002E042A /* Private_ExchangeLiveActivity.swift in Sources */,
+				71E7F6B82A09451C002E042A /* CurrencyRate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -291,6 +436,11 @@
 			isa = PBXTargetDependency;
 			target = 71E7F6652A09429F002E042A /* Private Exchange Rate */;
 			targetProxy = 71E7F6812A0942A1002E042A /* PBXContainerItemProxy */;
+		};
+		71E7F6AB2A0942E4002E042A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 71E7F6962A0942E3002E042A /* Private ExchangeExtension */;
+			targetProxy = 71E7F6AA2A0942E4002E042A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -412,6 +562,7 @@
 		71E7F68B2A0942A1002E042A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -420,11 +571,13 @@
 				DEVELOPMENT_TEAM = F2MP7G7FM5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Private-Exchange-Rate-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -441,6 +594,7 @@
 		71E7F68C2A0942A1002E042A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -449,11 +603,13 @@
 				DEVELOPMENT_TEAM = F2MP7G7FM5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Private-Exchange-Rate-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -543,6 +699,62 @@
 			};
 			name = Release;
 		};
+		71E7F6AE2A0942E4002E042A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F2MP7G7FM5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Private Exchange/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Private Exchange";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dimaportenko.privateexchangerate.Private-Exchange-Rate.Private-Exchange";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		71E7F6AF2A0942E4002E042A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F2MP7G7FM5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Private Exchange/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Private Exchange";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dimaportenko.privateexchangerate.Private-Exchange-Rate.Private-Exchange";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -582,7 +794,40 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		71E7F6AD2A0942E4002E042A /* Build configuration list for PBXNativeTarget "Private ExchangeExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				71E7F6AE2A0942E4002E042A /* Debug */,
+				71E7F6AF2A0942E4002E042A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		71E7F6B12A0943E2002E042A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		71E7F6B22A0943E2002E042A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71E7F6B12A0943E2002E042A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		71E7F6BA2A0953B8002E042A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71E7F6B12A0943E2002E042A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 71E7F65E2A09429F002E042A /* Project object */;
 }

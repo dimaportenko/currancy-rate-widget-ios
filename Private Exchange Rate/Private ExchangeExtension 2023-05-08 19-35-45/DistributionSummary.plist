@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Private Exchange Rate.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>buildNumber</key>
+			<string>1</string>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>FD724AF17A082BD6AFF12AE9AAE687353DFC7A29</string>
+				<key>dateExpires</key>
+				<string>07.05.2024</string>
+				<key>type</key>
+				<string>Cloud Managed Apple Distribution</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>arm64</string>
+					</array>
+					<key>buildNumber</key>
+					<string>1</string>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>FD724AF17A082BD6AFF12AE9AAE687353DFC7A29</string>
+						<key>dateExpires</key>
+						<string>07.05.2024</string>
+						<key>type</key>
+						<string>Cloud Managed Apple Distribution</string>
+					</dict>
+					<key>entitlements</key>
+					<dict>
+						<key>application-identifier</key>
+						<string>F2MP7G7FM5.com.dimaportenko.privateexchangerate.Private-Exchange-Rate.Private-Exchange</string>
+						<key>com.apple.developer.team-identifier</key>
+						<string>F2MP7G7FM5</string>
+						<key>get-task-allow</key>
+						<false/>
+					</dict>
+					<key>name</key>
+					<string>Private ExchangeExtension.appex</string>
+					<key>profile</key>
+					<dict>
+						<key>UUID</key>
+						<string>28aae876-7559-46e7-9b70-c2767e58aba1</string>
+						<key>dateExpires</key>
+						<string>07.05.2024</string>
+						<key>name</key>
+						<string>iOS Team Ad Hoc Provisioning Profile: com.dimaportenko.privateexchangerate.Private-Exchange-Rate.Private-Exchange</string>
+					</dict>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>F2MP7G7FM5</string>
+						<key>name</key>
+						<string>Dmytro Portenko</string>
+					</dict>
+					<key>versionNumber</key>
+					<string>1.0</string>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>F2MP7G7FM5.com.dimaportenko.privateexchangerate.Private-Exchange-Rate</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>F2MP7G7FM5</string>
+				<key>get-task-allow</key>
+				<false/>
+			</dict>
+			<key>name</key>
+			<string>Private Exchange Rate.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>1f767808-de99-4945-8d72-abe21d4ce5a7</string>
+				<key>dateExpires</key>
+				<string>07.05.2024</string>
+				<key>name</key>
+				<string>iOS Team Ad Hoc Provisioning Profile: com.dimaportenko.privateexchangerate.Private-Exchange-Rate</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>F2MP7G7FM5</string>
+				<key>name</key>
+				<string>Dmytro Portenko</string>
+			</dict>
+			<key>versionNumber</key>
+			<string>1.0</string>
+		</dict>
+	</array>
+</dict>
+</plist>
