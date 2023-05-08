@@ -61,21 +61,30 @@ struct Private_ExchangeEntryView : View {
             return code
         }
     }
-
+    
+    private func textColor(for rate: CurrencyRate) -> Color {
+        if rate.ccy == "USD" {
+            if let buy = Double(rate.buy), let sale = Double(rate.sale) {
+                let average = (buy + sale) / 2
+                return average > 37.5 ? .green : .red
+            }
+        }
+        return .primary
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Rates")
                 .font(.headline)
             Spacer()
-
             if let currencyRates = entry.currencyRates {
                 ForEach(currencyRates, id: \.ccy) { rate in
                     HStack {
-                        Text("\(currencySymbol(for: rate.ccy)) / \(currencySymbol(for: rate.base_ccy))")
+                        Text("\(currencySymbol(for: rate.ccy))")
                             .font(.subheadline)
                         Spacer()
                         Text("\(roundedRateValue(rate.buy)) / \(roundedRateValue(rate.sale))")
-                        .font(.footnote)
+                            .foregroundColor(textColor(for: rate)).font(.footnote)
                     }
                 }
             } else {
