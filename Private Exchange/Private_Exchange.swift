@@ -48,26 +48,6 @@ struct Provider: IntentTimelineProvider {
 struct Private_ExchangeEntryView : View {
     var entry: Provider.Entry
     
-    func roundedRateValue(_ rateValue: String) -> String {
-        if let value = Double(rateValue) {
-            return String(format: "%.2f", value)
-        }
-        return rateValue
-    }
-    
-    func currencySymbol(for code: String) -> String {
-        switch code {
-        case "EUR":
-            return "€"
-        case "UAH":
-            return "₴"
-        case "USD":
-            return "$"
-        default:
-            return code
-        }
-    }
-    
     private func textColor(for rate: CurrencyRate) -> Color {
         if rate.ccy == "USD" {
             if let buy = Double(rate.buy), let sale = Double(rate.sale) {
@@ -86,10 +66,10 @@ struct Private_ExchangeEntryView : View {
             if let currencyRates = entry.currencyRates {
                 ForEach(currencyRates, id: \.ccy) { rate in
                     HStack {
-                        Text("\(currencySymbol(for: rate.ccy))")
+                        Text("\(Utils.currencySymbol(for: rate.ccy))")
                             .font(.subheadline)
                         Spacer()
-                        Text("\(roundedRateValue(rate.buy)) / \(roundedRateValue(rate.sale))")
+                        Text("\(Utils.roundedRateValue(rate.buy)) / \(Utils.roundedRateValue(rate.sale))")
                             .foregroundColor(textColor(for: rate)).font(.footnote)
                     }
                 }

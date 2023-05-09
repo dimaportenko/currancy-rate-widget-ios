@@ -42,19 +42,44 @@ class CoreDataManager {
 
     func saveCurrencyRates(_ rates: [CurrencyRate]) {
         let context = persistentContainer.viewContext
+        let calendar = Calendar.current
 
         for rate in rates {
-            let storedRate = StoredCurrencyRate(context: context)
-            storedRate.ccy = rate.ccy
-            storedRate.base_ccy = rate.base_ccy
-            storedRate.buy = rate.buy
-            storedRate.sale = rate.sale
-            storedRate.timestamp = Date()
+            let request = NSFetchRequest<StoredCurrencyRate>(entityName: "StoredCurrencyRate")
+            request.predicate = NSPredicate(format: "ccy == %@ AND base_ccy == %@", rate.ccy, rate.base_ccy)
+            request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+            request.fetchLimit = 1
+
+            do {
+                let previousRates = try context.fetch(request)
+
+                if let previousRate = previousRates.first,
+                   calendar.isDate(previousRate.timestamp ?? Date(), inSameDayAs: Date()) &&
+                   previousRate.buy == rate.buy && previousRate.sale == rate.sale {
+                    print("Same day and rates unchanged: \(rate.ccy) -> \(rate.base_ccy)")
+                    continue
+                }
+
+                let storedRate = StoredCurrencyRate(context: context)
+                storedRate.ccy = rate.ccy
+                storedRate.base_ccy = rate.base_ccy
+                storedRate.buy = rate.buy
+                storedRate.sale = rate.sale
+                storedRate.timestamp = Date()
+
+            } catch {
+                print("Failed to fetch previous currency rate: \(error)")
+            }
         }
 
-        saveContext()
+        do {
+            try context.save()
+            print("Currency rates saved")
+        } catch {
+            print("Failed to save currency rates: \(error)")
+        }
     }
-    
+
     func fetchStoredCurrencyRates() -> [StoredCurrencyRate] {
         let context = persistentContainer.viewContext
         let request = NSFetchRequest<StoredCurrencyRate>(entityName: "StoredCurrencyRate")

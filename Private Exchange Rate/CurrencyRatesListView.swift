@@ -19,29 +19,20 @@ struct CurrencyRatesListView: View {
     
     private func loadData() {
         storedRates = CoreDataManager.shared.fetchStoredCurrencyRates()
-        //
-        
-//        CurrencyRateFetcher.shared.fetchRates { currencyRates in
-//            if let rates = currencyRates {
-//                DispatchQueue.main.async {
-//                    CoreDataManager.shared.saveCurrencyRates(rates)
-//                }
-//            }
-//        }
     }
     
     var body: some View {
         NavigationView {
             List(storedRates, id: \.objectID) { rate in
-                VStack(alignment: .leading) {
+                ForEach(storedRates.filter { $0.ccy == "USD" }, id: \.self) { rate in
                     HStack {
-                        Text("\(rate.ccy ?? "") to \(rate.base_ccy ?? "")")
+                        Text("\(Utils.roundedRateValue(rate.buy ?? "")) / \(Utils.roundedRateValue(rate.sale ?? ""))")
+//                        Spacer()
+//                        Text("\(Utils.currencySymbol(for: rate.ccy ?? ""))")
                         Spacer()
-                        Text("\(rate.buy ?? "") / \(rate.sale ?? "")")
-                    }
-                    if let timestamp = rate.timestamp {
-                        Text("Timestamp: \(dateFormatter.string(from: timestamp))")
-                    }
+                        if let timestamp = rate.timestamp {
+                            Text("\(dateFormatter.string(from: timestamp))")
+                        }                    }
                 }
             }
             .navigationTitle("Stored Currency Rates")
