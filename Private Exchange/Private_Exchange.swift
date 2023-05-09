@@ -31,6 +31,12 @@ struct Provider: IntentTimelineProvider {
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
         let currentDate = Date()
         CurrencyRateFetcher.shared.fetchRates { currencyRates in
+            if let rates = currencyRates {
+                DispatchQueue.main.async {
+                    CoreDataManager.shared.saveCurrencyRates(rates)
+                }
+            }
+        
             let entry = SimpleEntry(date: currentDate, currencyRates: currencyRates, configuration: configuration)
             let nextUpdate = Calendar.current.date(byAdding: .minute, value: 60, to: currentDate)!
             let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
