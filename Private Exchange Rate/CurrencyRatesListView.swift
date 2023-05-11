@@ -22,6 +22,19 @@ struct CurrencyRatesListView: View {
         storedRates = CoreDataManager.shared.fetchStoredCurrencyRates()
     }
     
+    private func refetch() {
+
+        CurrencyRateFetcher.shared.fetchRates { currencyRates in
+            if let rates = currencyRates {
+                DispatchQueue.main.async {
+                    CoreDataManager.shared.saveCurrencyRates(rates)
+                    loadData()
+                }
+            }
+        }
+
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -54,10 +67,10 @@ struct CurrencyRatesListView: View {
                     }
                 }
             }
-            .navigationTitle("Stored Currency Rates")
+            .navigationTitle("Stored USD rates")
             .onAppear(perform: loadData)
             .refreshable {
-                loadData()
+                refetch()
             }
         }
         
