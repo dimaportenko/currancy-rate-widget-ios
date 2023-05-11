@@ -14,6 +14,7 @@ struct CurrencyRatesListView: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
+        formatter.locale = Locale(identifier: "en_GB")
         return formatter
     }()
     
@@ -23,21 +24,43 @@ struct CurrencyRatesListView: View {
     
     var body: some View {
         NavigationView {
-            List(storedRates, id: \.objectID) { rate in
-                ForEach(storedRates.filter { $0.ccy == "USD" }, id: \.self) { rate in
+            List {
+                ForEach(Array(storedRates.enumerated()), id: \.element) { index, rate in
                     HStack {
                         Text("\(Utils.roundedRateValue(rate.buy ?? "")) / \(Utils.roundedRateValue(rate.sale ?? ""))")
-//                        Spacer()
-//                        Text("\(Utils.currencySymbol(for: rate.ccy ?? ""))")
+                        //                        Spacer()
+                        //                        Text("\(Utils.currencySymbol(for: rate.ccy ?? ""))")
                         Spacer()
                         if let timestamp = rate.timestamp {
                             Text("\(dateFormatter.string(from: timestamp))")
-                        }                    }
+                            //                            Text("\(timestamp)")
+                        }
+                        Spacer()
+                        if storedRates.count - index > 1 {
+                            if let currentSale = Double(rate.sale ?? ""),
+                               let previousSale = Double(storedRates[index + 1].sale ?? "") {
+                                let diff = currentSale - previousSale
+                                if diff != 0 {
+                                    Text(String(format: "%@%.2f", diff > 0 ? "+" : (diff < 0 ? "-" : "±"), diff))
+                                        .foregroundColor(diff > 0 ? .green : (diff < 0 ? .red : .black))
+                                } else {
+                                    
+                                    Text("±0")
+                                }
+                            }
+                        } else {
+                            Text("±0")
+                        }
+                    }
                 }
             }
             .navigationTitle("Stored Currency Rates")
             .onAppear(perform: loadData)
+            .refreshable {
+                loadData()
+            }
         }
+        
     }
 }
 
