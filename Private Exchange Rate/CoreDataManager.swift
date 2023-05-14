@@ -80,10 +80,10 @@ class CoreDataManager {
         }
     }
 
-    func fetchStoredCurrencyRates() -> [StoredCurrencyRate] {
+    func fetchStoredCurrencyRates(ccy: String) -> [StoredCurrencyRate] {
         let context = persistentContainer.viewContext
         let request = NSFetchRequest<StoredCurrencyRate>(entityName: "StoredCurrencyRate")
-        request.predicate = NSPredicate(format: "ccy == 'USD'")
+        request.predicate = NSPredicate(format: "ccy == %@", ccy)
         request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
 
         do {
