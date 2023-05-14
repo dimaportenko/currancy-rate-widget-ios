@@ -60,39 +60,42 @@ struct CurrencyRatesListView: View {
                 
                 List {
                     ForEach(Array(storedRates.enumerated()), id: \.element) { index, rate in
-                        GeometryReader { geometry in
                             HStack {
                                 if let timestamp = rate.timestamp {
-                                    Text("\(dateFormatter.string(from: timestamp))").frame(width: geometry.size.width / 9 * 5)
+                                    Text("\(dateFormatter.string(from: timestamp))")
                                 }
                                 Spacer()
                                 
                                 VStack {
                                     HStack {
-                                        Text("\(Utils.roundedRateValue(rate.buy ?? ""))").frame(width: geometry.size.width / 9 * 2)
+                                        Text("\(Utils.roundedRateValue(rate.buy ?? ""))")
+                                        
+                                        Spacer()
                                         
                                         if storedRates.count - index > 1 {
                                             let nextRate = storedRates[index + 1]
-                                            differenceText(currentValue: rate.buy, nextValue: nextRate.buy).frame(width: geometry.size.width / 9 * 2)
+                                            differenceText(currentValue: rate.buy, nextValue: nextRate.buy)
                                         } else {
-                                            differenceText(currentValue: rate.buy, nextValue: nil).frame(width: geometry.size.width / 9 * 2)
+                                            differenceText(currentValue: rate.buy, nextValue: nil)
                                         }
                                     }
+                                    Divider()
                                     HStack {
-                                        Text("\(Utils.roundedRateValue(rate.sale ?? ""))").frame(width: geometry.size.width / 9 * 2)
+                                        Text("\(Utils.roundedRateValue(rate.sale ?? ""))")
+                                        
+                                        Spacer()
                                         
                                         if storedRates.count - index > 1 {
                                             let nextRate = storedRates[index + 1]
-                                            differenceText(currentValue: rate.sale, nextValue: nextRate.sale).frame(width: geometry.size.width / 9 * 2)
+                                            differenceText(currentValue: rate.sale, nextValue: nextRate.sale)
                                         } else {
-                                            differenceText(currentValue: rate.sale, nextValue: nil).frame(width: geometry.size.width / 9 * 2)
+                                            differenceText(currentValue: rate.sale, nextValue: nil)
                                         }
                                     }
-                                }.frame(width: geometry.size.width / 9 * 4)
+                                }.padding(.leading)
                             }
                         }
                     }
-                }
             }
             .navigationTitle("Stored USD rates")
             .onAppear(perform: loadData)
