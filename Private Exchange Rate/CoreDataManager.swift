@@ -95,4 +95,15 @@ class CoreDataManager {
             return []
         }
     }
+    
+    func rateDifference(for ccy: String) -> Double {
+        let rates = fetchStoredCurrencyRates(ccy: ccy)
+        guard rates.count >= 2,
+              let currentRate = Double(rates[0].sale ?? ""),
+              let previousRate = Double(rates[1].sale ?? "") else {
+            return 0
+        }
+        
+        return currentRate - previousRate
+    }
 }

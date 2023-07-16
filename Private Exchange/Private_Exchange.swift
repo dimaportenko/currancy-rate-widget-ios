@@ -49,15 +49,10 @@ struct Private_ExchangeEntryView : View {
     var entry: Provider.Entry
     
     private func textColor(for rate: CurrencyRate) -> Color {
-        if rate.ccy == "USD" {
-            if let buy = Double(rate.buy), let sale = Double(rate.sale) {
-                let average = (buy + sale) / 2
-                return average > 37.5 ? .green : .red
-            }
-        }
-        return .primary
+        let difference = CoreDataManager.shared.rateDifference(for: rate.ccy)
+        return difference > 0 ? .green : (difference < 0 ? .red : .primary)
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Rates")
