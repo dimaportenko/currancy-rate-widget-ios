@@ -73,7 +73,7 @@ struct Private_ExchangeEntryView : View {
                     .font(.footnote)
             }
         }
-        .containerBackground(.secondary, for: .widget)
+        .containerBackground(.background, for: .widget)
     }
 }
 
