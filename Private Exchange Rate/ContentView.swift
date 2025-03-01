@@ -41,8 +41,8 @@ struct ContentView: View {
             let itemAppearance = UITabBarItemAppearance()
             itemAppearance.normal.iconColor = UIColor.systemGray
             itemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.systemGray]
-            itemAppearance.selected.iconColor = UIColor.systemBlue
-            itemAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.systemBlue]
+            itemAppearance.selected.iconColor = UIColor.label
+            itemAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.label]
             
             appearance.inlineLayoutAppearance = itemAppearance
             appearance.stackedLayoutAppearance = itemAppearance
@@ -53,7 +53,6 @@ struct ContentView: View {
                 UITabBar.appearance().scrollEdgeAppearance = appearance
             }
         }
-        .accentColor(.blue)
     }
 }
 
