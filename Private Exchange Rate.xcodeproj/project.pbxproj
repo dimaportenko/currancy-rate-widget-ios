@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71A9526A2D73B71C0094F0D5 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A952692D73B71C0094F0D5 /* DashboardView.swift */; };
+		71A9526C2D73B86C0094F0D5 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9526B2D73B86C0094F0D5 /* UIImage+Extensions.swift */; };
 		71B5A2072A0AD93D008584B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B5A2062A0AD93D008584B6 /* CoreData.framework */; };
 		71B5A2082A0AD948008584B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B5A2062A0AD93D008584B6 /* CoreData.framework */; };
 		71B5A20B2A0AD9BE008584B6 /* CurrencyRateModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 71B5A2092A0AD9BE008584B6 /* CurrencyRateModel.xcdatamodeld */; };
@@ -80,6 +82,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		71A952692D73B71C0094F0D5 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		71A9526B2D73B86C0094F0D5 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		71B5A2062A0AD93D008584B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		71B5A20A2A0AD9BE008584B6 /* CurrencyRateModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CurrencyRateModel.xcdatamodel; sourceTree = "<group>"; };
 		71B5A20D2A0ADAA8008584B6 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -179,12 +183,14 @@
 			children = (
 				71D4CAF62A0AEAF100A3F9CB /* Private Exchange Rate.entitlements */,
 				71E7F6BC2A096852002E042A /* Private-Exchange-Rate-Info.plist */,
+				71A9526B2D73B86C0094F0D5 /* UIImage+Extensions.swift */,
 				71B5A20D2A0ADAA8008584B6 /* CoreDataManager.swift */,
 				71E7F6692A09429F002E042A /* Private_Exchange_RateApp.swift */,
 				71D4CAF82A0AEE1900A3F9CB /* Utils.swift */,
 				71E7F6B42A0943FA002E042A /* CurrencyRate.swift */,
 				71E7F6B62A09442D002E042A /* CurrencyRateFetcher.swift */,
 				71D4CAF02A0ADD9200A3F9CB /* CurrencyRatesListView.swift */,
+				71A952692D73B71C0094F0D5 /* DashboardView.swift */,
 				71E7F66B2A09429F002E042A /* ContentView.swift */,
 				71E7F66D2A0942A0002E042A /* Assets.xcassets */,
 				71E7F66F2A0942A0002E042A /* Preview Content */,
@@ -413,9 +419,11 @@
 				71B5A20B2A0AD9BE008584B6 /* CurrencyRateModel.xcdatamodeld in Sources */,
 				71E7F6BE2A0968D2002E042A /* Private_Exchange.swift in Sources */,
 				71D4CAF12A0ADD9200A3F9CB /* CurrencyRatesListView.swift in Sources */,
+				71A9526C2D73B86C0094F0D5 /* UIImage+Extensions.swift in Sources */,
 				71E7F6B72A09442D002E042A /* CurrencyRateFetcher.swift in Sources */,
 				71E7F6B52A0943FA002E042A /* CurrencyRate.swift in Sources */,
 				71D4CAF92A0AEE1900A3F9CB /* Utils.swift in Sources */,
+				71A9526A2D73B71C0094F0D5 /* DashboardView.swift in Sources */,
 				71E7F66C2A09429F002E042A /* ContentView.swift in Sources */,
 				71E7F66A2A09429F002E042A /* Private_Exchange_RateApp.swift in Sources */,
 				71B5A20E2A0ADAA8008584B6 /* CoreDataManager.swift in Sources */,
