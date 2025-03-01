@@ -7,8 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71312A282D73C29800D24AB3 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 71312A272D73C29800D24AB3 /* KeychainAccess */; };
 		71A9526A2D73B71C0094F0D5 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A952692D73B71C0094F0D5 /* DashboardView.swift */; };
 		71A9526C2D73B86C0094F0D5 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9526B2D73B86C0094F0D5 /* UIImage+Extensions.swift */; };
+		71A952752D73C0EC0094F0D5 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9526D2D73C0EC0094F0D5 /* AuthModels.swift */; };
+		71A952762D73C0EC0094F0D5 /* DashboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A952702D73C0EC0094F0D5 /* DashboardService.swift */; };
+		71A952772D73C0EC0094F0D5 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A952732D73C0EC0094F0D5 /* DashboardViewModel.swift */; };
+		71A952782D73C0EC0094F0D5 /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A952712D73C0EC0094F0D5 /* TokenStorage.swift */; };
+		71A952792D73C0EC0094F0D5 /* DashboardDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9526F2D73C0EC0094F0D5 /* DashboardDatabase.swift */; };
 		71B5A2072A0AD93D008584B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B5A2062A0AD93D008584B6 /* CoreData.framework */; };
 		71B5A2082A0AD948008584B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B5A2062A0AD93D008584B6 /* CoreData.framework */; };
 		71B5A20B2A0AD9BE008584B6 /* CurrencyRateModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 71B5A2092A0AD9BE008584B6 /* CurrencyRateModel.xcdatamodeld */; };
@@ -84,6 +90,11 @@
 /* Begin PBXFileReference section */
 		71A952692D73B71C0094F0D5 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		71A9526B2D73B86C0094F0D5 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		71A9526D2D73C0EC0094F0D5 /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModels.swift; sourceTree = "<group>"; };
+		71A9526F2D73C0EC0094F0D5 /* DashboardDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardDatabase.swift; sourceTree = "<group>"; };
+		71A952702D73C0EC0094F0D5 /* DashboardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardService.swift; sourceTree = "<group>"; };
+		71A952712D73C0EC0094F0D5 /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
+		71A952732D73C0EC0094F0D5 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
 		71B5A2062A0AD93D008584B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		71B5A20A2A0AD9BE008584B6 /* CurrencyRateModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CurrencyRateModel.xcdatamodel; sourceTree = "<group>"; };
 		71B5A20D2A0ADAA8008584B6 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -122,6 +133,7 @@
 			files = (
 				71E7F6B32A0943E2002E042A /* Alamofire in Frameworks */,
 				71B5A2072A0AD93D008584B6 /* CoreData.framework in Frameworks */,
+				71312A282D73C29800D24AB3 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +165,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		71A9526E2D73C0EC0094F0D5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				71A9526D2D73C0EC0094F0D5 /* AuthModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		71A952722D73C0EC0094F0D5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				71A9526F2D73C0EC0094F0D5 /* DashboardDatabase.swift */,
+				71A952702D73C0EC0094F0D5 /* DashboardService.swift */,
+				71A952712D73C0EC0094F0D5 /* TokenStorage.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		71A952742D73C0EC0094F0D5 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				71A952732D73C0EC0094F0D5 /* DashboardViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		71E7F65D2A09429F002E042A = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +219,9 @@
 		71E7F6682A09429F002E042A /* Private Exchange Rate */ = {
 			isa = PBXGroup;
 			children = (
+				71A9526E2D73C0EC0094F0D5 /* Models */,
+				71A952722D73C0EC0094F0D5 /* Services */,
+				71A952742D73C0EC0094F0D5 /* ViewModels */,
 				71D4CAF62A0AEAF100A3F9CB /* Private Exchange Rate.entitlements */,
 				71E7F6BC2A096852002E042A /* Private-Exchange-Rate-Info.plist */,
 				71A9526B2D73B86C0094F0D5 /* UIImage+Extensions.swift */,
@@ -266,6 +307,7 @@
 			name = "Private Exchange Rate";
 			packageProductDependencies = (
 				71E7F6B22A0943E2002E042A /* Alamofire */,
+				71312A272D73C29800D24AB3 /* KeychainAccess */,
 			);
 			productName = "Private Exchange Rate";
 			productReference = 71E7F6662A09429F002E042A /* Private Exchange Rate.app */;
@@ -364,6 +406,7 @@
 			mainGroup = 71E7F65D2A09429F002E042A;
 			packageReferences = (
 				71E7F6B12A0943E2002E042A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				71312A262D73C29800D24AB3 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = 71E7F6672A09429F002E042A /* Products */;
 			projectDirPath = "";
@@ -420,6 +463,11 @@
 				71E7F6BE2A0968D2002E042A /* Private_Exchange.swift in Sources */,
 				71D4CAF12A0ADD9200A3F9CB /* CurrencyRatesListView.swift in Sources */,
 				71A9526C2D73B86C0094F0D5 /* UIImage+Extensions.swift in Sources */,
+				71A952752D73C0EC0094F0D5 /* AuthModels.swift in Sources */,
+				71A952762D73C0EC0094F0D5 /* DashboardService.swift in Sources */,
+				71A952772D73C0EC0094F0D5 /* DashboardViewModel.swift in Sources */,
+				71A952782D73C0EC0094F0D5 /* TokenStorage.swift in Sources */,
+				71A952792D73C0EC0094F0D5 /* DashboardDatabase.swift in Sources */,
 				71E7F6B72A09442D002E042A /* CurrencyRateFetcher.swift in Sources */,
 				71E7F6B52A0943FA002E042A /* CurrencyRate.swift in Sources */,
 				71D4CAF92A0AEE1900A3F9CB /* Utils.swift in Sources */,
@@ -852,6 +900,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		71312A262D73C29800D24AB3 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		71E7F6B12A0943E2002E042A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -863,6 +919,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		71312A272D73C29800D24AB3 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71312A262D73C29800D24AB3 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
 		71E7F6B22A0943E2002E042A /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 71E7F6B12A0943E2002E042A /* XCRemoteSwiftPackageReference "Alamofire" */;
