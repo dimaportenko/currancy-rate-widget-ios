@@ -10,167 +10,188 @@ import SwiftUI
 import Intents
 import CoreData
 import Combine
+//import Private_Exchange_Rate // Import the main app module where DashboardUtils is located
+
+// Static counter that uses UserDefaults for persistence
+class RefreshTracker {
+    // Store counter in UserDefaults so it persists between widget process launches
+    static var timelineCounter: Int {
+        get {
+            let defaults = UserDefaults(
+                suiteName: "group.com.dimaportenko.privateexchangerate.Private-Exchange-Rate.sharedcontainer"
+            ) ?? UserDefaults.standard
+            return defaults.integer(forKey: "widgetRefreshCounter")
+        }
+        set {
+            let defaults = UserDefaults(
+                suiteName: "group.com.dimaportenko.privateexchangerate.Private-Exchange-Rate.sharedcontainer"
+            ) ?? UserDefaults.standard
+            defaults.set(newValue, forKey: "widgetRefreshCounter")
+        }
+    }
+    
+    static var lastRefreshTime: Date {
+        get {
+            let defaults = UserDefaults(
+                suiteName: "group.com.dimaportenko.privateexchangerate.Private-Exchange-Rate.sharedcontainer"
+            ) ?? UserDefaults.standard
+            return defaults.object(forKey: "widgetLastRefreshTime") as? Date ?? Date()
+        }
+        set {
+            let defaults = UserDefaults(
+                suiteName: "group.com.dimaportenko.privateexchangerate.Private-Exchange-Rate.sharedcontainer"
+            ) ?? UserDefaults.standard
+            defaults.set(newValue, forKey: "widgetLastRefreshTime")
+        }
+    }
+    
+    static let formatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "HH:mm:ss"
+        return f
+    }()
+}
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let currencyRates: [CurrencyRate]?
-    let dashboardTotal: TotalAmountResponse?
     let configuration: ConfigurationIntent
+    let refreshCount: Int
+    let refreshTime: String
+    let isPlaceholder: Bool
 }
 
 struct Provider: IntentTimelineProvider {
-    private let dashboardService = DashboardService.shared
-    private let cancellableStorage = CancellableStorage()
-    
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), currencyRates: nil, dashboardTotal: nil, configuration: ConfigurationIntent())
+        SimpleEntry(
+            date: Date(),
+            configuration: ConfigurationIntent(),
+            refreshCount: 0,
+            refreshTime: "N/A",
+            isPlaceholder: true
+        )
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let currentDate = Date()
         
-        // Try to fetch fresh dashboard data first
-        fetchLatestDashboardData { dashboardTotal in
-            // Fetch currency rates
-            CurrencyRateFetcher.shared.fetchRates { currencyRates in
-                let entry = SimpleEntry(
-                    date: currentDate,
-                    currencyRates: currencyRates,
-                    dashboardTotal: dashboardTotal,
-                    configuration: configuration
-                )
-                completion(entry)
-            }
-        }
+        // Increment the counter for the snapshot too
+        RefreshTracker.timelineCounter += 1
+        let count = RefreshTracker.timelineCounter
+        let timeString = RefreshTracker.formatter.string(from: currentDate)
+        
+        print("Widget: getSnapshot called #\(count) at \(timeString)")
+        
+        let entry = SimpleEntry(
+            date: currentDate,
+            configuration: configuration,
+            refreshCount: count,
+            refreshTime: timeString,
+            isPlaceholder: false
+        )
+        completion(entry)
     }
 
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
-        let currentDate = Date()
-        
-        print("getTimeline")
-        // Try to fetch fresh dashboard data first
-        fetchLatestDashboardData { dashboardTotal in
-            // Fetch currency rates
-            CurrencyRateFetcher.shared.fetchRates { currencyRates in
-                if let rates = currencyRates {
-                    DispatchQueue.main.async {
-                        CoreDataManager.shared.saveCurrencyRates(rates)
-                    }
-                }
-                
-                let entry = SimpleEntry(
-                    date: currentDate,
-                    currencyRates: currencyRates,
-                    dashboardTotal: dashboardTotal,
-                    configuration: configuration
-                )
-                let nextUpdate = Calendar.current.date(byAdding: .second, value: 20, to: currentDate)!
-                let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-                completion(timeline)
-            }
-        }
-    }
-    
-    // Helper method to fetch the latest dashboard data with fallback to local storage
-    private func fetchLatestDashboardData(completion: @escaping (TotalAmountResponse?) -> Void) {
-        let calendar = Calendar.current
-        let currentDate = Date()
-        let year = calendar.component(.year, from: currentDate)
-        let month = calendar.component(.month, from: currentDate) - 1
-        
-        // First check if authentication is possible
-        guard dashboardService.isAuthenticated() else {
-            print("Widget: No authentication token available, using local data only")
-            let localData = self.dashboardService.getLocalTotalAmount(year: year, month: month)
-            completion(localData)
-            return
-        }
-        
-        // Try to get authenticated data from the service
-        print("Widget: Start fetching data from API with authentication...")
-        dashboardService.fetchTotalAmount(year: year, month: month)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { result in
-                switch result {
-                case .finished:
-                    // Successfully got data from API, it's handled in receiveValue
-                    print("Widget: Successfully got data from API")
-                    break
-                case .failure(let error):
-                    // On failure, fall back to local data
-                    print("Widget: API call failed: \(error), falling back to local data")
-                    let localData = self.dashboardService.getLocalTotalAmount(year: year, month: month)
-                    completion(localData)
-                }
-            }, receiveValue: { response in
-                // Got fresh data from API
-                print("Widget: Received data from API: \(response)")
-                completion(response)
-            })
-            .store(in: &cancellableStorage.cancellables)
-        
-        // Add a fallback timer in case the API call takes too long
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 40.0) {
-//            // If we haven't received a response yet, use local data
-//            if !self.cancellableStorage.cancellables.isEmpty {
-//                print("Widget: API call timed out, falling back to local data")
-//                self.cancellableStorage.cancellables.removeAll()
-//                let localData = self.dashboardService.getLocalTotalAmount(year: year, month: month)
-//                completion(localData)
-//            }
-//        }
-    }
-}
 
-// Add a reference type wrapper for cancellables
-class CancellableStorage {
-    var cancellables = Set<AnyCancellable>()
+     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
+//    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
+        let currentDate = Date()
+        
+        // Record when getTimeline was last called
+        let lastTime = RefreshTracker.lastRefreshTime
+        let timeSinceLastRefresh = currentDate.timeIntervalSince(lastTime)
+        
+        // Increment the counter each time getTimeline is called
+        RefreshTracker.timelineCounter += 1
+        RefreshTracker.lastRefreshTime = currentDate
+        
+        let count = RefreshTracker.timelineCounter
+        let timeString = RefreshTracker.formatter.string(from: currentDate)
+        
+        print("getTimeline called #\(count) at \(timeString) - \(timeSinceLastRefresh) seconds since last refresh")
+        
+        // Create just a single entry
+        let entry = SimpleEntry(
+            date: currentDate,
+            configuration: configuration,
+            refreshCount: count,
+            refreshTime: timeString,
+            isPlaceholder: false
+        )
+        
+        // Schedule the next refresh in 60 minutes
+        let nextRefreshDate = Calendar.current.date(byAdding: .second, value: 60, to: currentDate)!
+        print("Widget: Created timeline with 1 entry, next refresh scheduled at \(RefreshTracker.formatter.string(from: nextRefreshDate)) (in 60 minutes)")
+        
+        let timeline = Timeline(entries: [entry], policy: .after(nextRefreshDate))
+        completion(timeline)
+    }
 }
 
 struct Private_ExchangeEntryView : View {
     var entry: Provider.Entry
+    // Display time when this view was rendered
+    @State private var displayTime = RefreshTracker.formatter.string(from: Date())
+    @State private var lastGetTimelineTime = RefreshTracker.lastRefreshTime
     
-    private func textColor(for rate: CurrencyRate) -> Color {
-        let difference = CoreDataManager.shared.rateDifference(for: rate.ccy)
-        return difference > 0 ? .green : (difference < 0 ? .red : .primary)
+    // Calculate the time remaining to the next scheduled refresh
+    private var timeToNextRefresh: String {
+        let secondsUntilNextRefresh = Calendar.current.dateComponents([.second], from: Date(), to: entry.date).second ?? 0
+        if secondsUntilNextRefresh > 0 {
+            return "Next: \(secondsUntilNextRefresh)s"
+        } else {
+            return "Current"
+        }
+    }
+    
+    // Calculate time since getTimeline was last called
+    private var timeSinceGetTimeline: String {
+        let seconds = Int(Date().timeIntervalSince(lastGetTimelineTime))
+        return "\(seconds)s ago"
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            if let dashboardTotal = entry.dashboardTotal {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(DashboardUtils.formatCurrency(dashboardTotal.totalAmount))
-                        .font(.system(size: 16, weight: .bold))
-                    
-                    HStack {
-                        Text("\(DashboardUtils.formatMonth(dashboardTotal.month)), \(dashboardTotal.year)")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                    }
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Widget Test Mode")
+                .font(.headline)
+                .padding(.bottom, 4)
+            
+            // Refresh counter and diagnostic info
+            VStack(alignment: .leading, spacing: 6) {
+                // First row: Refresh counter and next scheduled entry
+                HStack {
+                    Text("Refresh #\(entry.refreshCount)")
+                        .font(.subheadline)
+                    Spacer()
+                    Text(timeToNextRefresh)
+                        .font(.subheadline)
                 }
-                .padding(.bottom, 10)
+                
+                // Second row: Last getTimeline call
+                HStack {
+                    Text("GetTimeline:")
+                        .font(.subheadline)
+                    Spacer()
+                    Text(timeSinceGetTimeline)
+                        .font(.subheadline)
+                }
+                
+                // Third row: Entry creation time vs view rendering time
+                HStack {
+                    Text("Entry: \(entry.refreshTime)")
+                        .font(.subheadline)
+                    Spacer()
+                    Text("View: \(displayTime)")
+                        .font(.subheadline)
+                }
             }
             
-            Divider()
-                .padding(.vertical, 4)
+            Spacer()
             
-            // Currency rates section
-            if let currencyRates = entry.currencyRates {
-                ForEach(currencyRates, id: \.ccy) { rate in
-                    HStack {
-                        Text("\(Utils.currencySymbol(for: rate.ccy))")
-                            .font(.subheadline)
-                        Spacer()
-                        Text("\(Utils.roundedRateValue(rate.buy)) / \(Utils.roundedRateValue(rate.sale))")
-                            .foregroundColor(textColor(for: rate)).font(.footnote)
-                    }
-                }
-            } else {
-                Text("Failed to fetch currency rates")
-                    .font(.footnote)
-            }
+            Text("Widget refresh test")
+                .font(.caption)
+                .foregroundColor(.secondary)
         }
+        .padding()
         .containerBackground(.background, for: .widget)
     }
 }
@@ -192,10 +213,11 @@ struct Private_Exchange_Previews: PreviewProvider {
     static var previews: some View {
         Private_ExchangeEntryView(entry: SimpleEntry(
             date: Date(),
-            currencyRates: nil,
-            dashboardTotal: TotalAmountResponse(totalAmount: 123456, year: 2023, month: 5),
-            configuration: ConfigurationIntent())
-        )
+            configuration: ConfigurationIntent(),
+            refreshCount: 0,
+            refreshTime: "N/A",
+            isPlaceholder: false
+        ))
         .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
