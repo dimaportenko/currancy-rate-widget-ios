@@ -11,6 +11,10 @@
 		71312A2B2D745CA400D24AB3 /* DashboardUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71312A292D745CA400D24AB3 /* DashboardUtils.swift */; };
 		71312A2C2D745CA400D24AB3 /* DashboardUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71312A292D745CA400D24AB3 /* DashboardUtils.swift */; };
 		71312A2D2D745D3500D24AB3 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9526D2D73C0EC0094F0D5 /* AuthModels.swift */; };
+		71312A2E2D74ADEA00D24AB3 /* DashboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A952702D73C0EC0094F0D5 /* DashboardService.swift */; };
+		71312A2F2D74AE1E00D24AB3 /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A952712D73C0EC0094F0D5 /* TokenStorage.swift */; };
+		71312A302D74AE2B00D24AB3 /* DashboardDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9526F2D73C0EC0094F0D5 /* DashboardDatabase.swift */; };
+		71312A322D74AF0200D24AB3 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 71312A312D74AF0200D24AB3 /* KeychainAccess */; };
 		71A9526A2D73B71C0094F0D5 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A952692D73B71C0094F0D5 /* DashboardView.swift */; };
 		71A9526C2D73B86C0094F0D5 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9526B2D73B86C0094F0D5 /* UIImage+Extensions.swift */; };
 		71A952752D73C0EC0094F0D5 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9526D2D73C0EC0094F0D5 /* AuthModels.swift */; };
@@ -163,6 +167,7 @@
 				71B5A2082A0AD948008584B6 /* CoreData.framework in Frameworks */,
 				71E7F69C2A0942E3002E042A /* SwiftUI.framework in Frameworks */,
 				71E7F69A2A0942E3002E042A /* WidgetKit.framework in Frameworks */,
+				71312A322D74AF0200D24AB3 /* KeychainAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +382,7 @@
 			name = "Private ExchangeExtension";
 			packageProductDependencies = (
 				71E7F6BA2A0953B8002E042A /* Alamofire */,
+				71312A312D74AF0200D24AB3 /* KeychainAccess */,
 			);
 			productName = "Private ExchangeExtension";
 			productReference = 71E7F6972A0942E3002E042A /* Private ExchangeExtension.appex */;
@@ -515,6 +521,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71B5A20C2A0AD9BE008584B6 /* CurrencyRateModel.xcdatamodeld in Sources */,
+				71312A2F2D74AE1E00D24AB3 /* TokenStorage.swift in Sources */,
 				71E7F6A32A0942E3002E042A /* Private_Exchange.swift in Sources */,
 				71312A2B2D745CA400D24AB3 /* DashboardUtils.swift in Sources */,
 				71D4CAFA2A0AEEF200A3F9CB /* Utils.swift in Sources */,
@@ -522,8 +529,10 @@
 				71E7F6B92A0946A1002E042A /* CurrencyRateFetcher.swift in Sources */,
 				71E7F69F2A0942E3002E042A /* Private_ExchangeBundle.swift in Sources */,
 				71E7F6A12A0942E3002E042A /* Private_ExchangeLiveActivity.swift in Sources */,
+				71312A302D74AE2B00D24AB3 /* DashboardDatabase.swift in Sources */,
 				71312A2D2D745D3500D24AB3 /* AuthModels.swift in Sources */,
 				71B5A20F2A0ADAA8008584B6 /* CoreDataManager.swift in Sources */,
+				71312A2E2D74ADEA00D24AB3 /* DashboardService.swift in Sources */,
 				71E7F6B82A09451C002E042A /* CurrencyRate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -936,6 +945,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		71312A272D73C29800D24AB3 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71312A262D73C29800D24AB3 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		71312A312D74AF0200D24AB3 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 71312A262D73C29800D24AB3 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;

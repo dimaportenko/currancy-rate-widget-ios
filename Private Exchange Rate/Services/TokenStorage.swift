@@ -16,11 +16,21 @@ class TokenStorage {
         static let userEmail = "dashboard.userEmail"
     }
     
-    private let keychain = Keychain(service: "com.privateexchangerate.app")
+    // Configure keychain with shared access group
+    private let keychain: Keychain = {
+        let service = "com.privateexchangerate.app"
+        let accessGroup = "group.com.dimaportenko.privateexchangerate.Private-Exchange-Rate.sharedcontainer"
+        
+        // Create a keychain with both service and accessGroup for sharing between app and extensions
+        return Keychain(service: service, accessGroup: accessGroup)
+            .synchronizable(true) // Enable iCloud synchronization if desired
+    }()
     
     static let shared = TokenStorage()
     
-    private init() {}
+    private init() {
+        print("TokenStorage initialized with shared keychain access")
+    }
     
     // MARK: - Access Token
     

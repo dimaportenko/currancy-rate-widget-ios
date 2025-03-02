@@ -149,6 +149,11 @@ class DashboardService {
         tokenStorage.clearAllTokens()
     }
     
+    // Check if user is authenticated
+    func isAuthenticated() -> Bool {
+        return tokenStorage.isAuthenticated()
+    }
+    
     // MARK: - Dashboard Data
     
     func fetchTotalAmount(year: Int? = nil, month: Int? = nil) -> AnyPublisher<TotalAmountResponse, DashboardError> {

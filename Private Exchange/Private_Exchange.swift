@@ -9,6 +9,7 @@ import WidgetKit
 import SwiftUI
 import Intents
 import CoreData
+import Combine
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
@@ -18,6 +19,9 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct Provider: IntentTimelineProvider {
+    private let dashboardService = DashboardService.shared
+    private let cancellableStorage = CancellableStorage()
+    
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), currencyRates: nil, dashboardTotal: nil, configuration: ConfigurationIntent())
     }
@@ -25,48 +29,102 @@ struct Provider: IntentTimelineProvider {
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let currentDate = Date()
         
-        // Fetch currency rates
-        CurrencyRateFetcher.shared.fetchRates { currencyRates in
-            // Fetch dashboard total
-            let container = CoreDataManager.shared.persistentContainer
-            let dashboardTotal = DashboardUtils.fetchDashboardTotal(from: container.viewContext)
-            
-            let entry = SimpleEntry(
-                date: currentDate,
-                currencyRates: currencyRates,
-                dashboardTotal: dashboardTotal,
-                configuration: configuration
-            )
-            completion(entry)
+        // Try to fetch fresh dashboard data first
+        fetchLatestDashboardData { dashboardTotal in
+            // Fetch currency rates
+            CurrencyRateFetcher.shared.fetchRates { currencyRates in
+                let entry = SimpleEntry(
+                    date: currentDate,
+                    currencyRates: currencyRates,
+                    dashboardTotal: dashboardTotal,
+                    configuration: configuration
+                )
+                completion(entry)
+            }
         }
     }
 
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
         let currentDate = Date()
         
-        // Fetch currency rates
-        CurrencyRateFetcher.shared.fetchRates { currencyRates in
-            if let rates = currencyRates {
-                DispatchQueue.main.async {
-                    CoreDataManager.shared.saveCurrencyRates(rates)
+        print("getTimeline")
+        // Try to fetch fresh dashboard data first
+        fetchLatestDashboardData { dashboardTotal in
+            // Fetch currency rates
+            CurrencyRateFetcher.shared.fetchRates { currencyRates in
+                if let rates = currencyRates {
+                    DispatchQueue.main.async {
+                        CoreDataManager.shared.saveCurrencyRates(rates)
+                    }
                 }
+                
+                let entry = SimpleEntry(
+                    date: currentDate,
+                    currencyRates: currencyRates,
+                    dashboardTotal: dashboardTotal,
+                    configuration: configuration
+                )
+                let nextUpdate = Calendar.current.date(byAdding: .second, value: 20, to: currentDate)!
+                let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+                completion(timeline)
             }
-            
-            // Fetch dashboard total
-            let container = CoreDataManager.shared.persistentContainer
-            let dashboardTotal = DashboardUtils.fetchDashboardTotal(from: container.viewContext)
-        
-            let entry = SimpleEntry(
-                date: currentDate,
-                currencyRates: currencyRates,
-                dashboardTotal: dashboardTotal,
-                configuration: configuration
-            )
-            let nextUpdate = Calendar.current.date(byAdding: .minute, value: 60, to: currentDate)!
-            let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-            completion(timeline)
         }
     }
+    
+    // Helper method to fetch the latest dashboard data with fallback to local storage
+    private func fetchLatestDashboardData(completion: @escaping (TotalAmountResponse?) -> Void) {
+        let calendar = Calendar.current
+        let currentDate = Date()
+        let year = calendar.component(.year, from: currentDate)
+        let month = calendar.component(.month, from: currentDate) - 1
+        
+        // First check if authentication is possible
+        guard dashboardService.isAuthenticated() else {
+            print("Widget: No authentication token available, using local data only")
+            let localData = self.dashboardService.getLocalTotalAmount(year: year, month: month)
+            completion(localData)
+            return
+        }
+        
+        // Try to get authenticated data from the service
+        print("Widget: Start fetching data from API with authentication...")
+        dashboardService.fetchTotalAmount(year: year, month: month)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { result in
+                switch result {
+                case .finished:
+                    // Successfully got data from API, it's handled in receiveValue
+                    print("Widget: Successfully got data from API")
+                    break
+                case .failure(let error):
+                    // On failure, fall back to local data
+                    print("Widget: API call failed: \(error), falling back to local data")
+                    let localData = self.dashboardService.getLocalTotalAmount(year: year, month: month)
+                    completion(localData)
+                }
+            }, receiveValue: { response in
+                // Got fresh data from API
+                print("Widget: Received data from API: \(response)")
+                completion(response)
+            })
+            .store(in: &cancellableStorage.cancellables)
+        
+        // Add a fallback timer in case the API call takes too long
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 40.0) {
+//            // If we haven't received a response yet, use local data
+//            if !self.cancellableStorage.cancellables.isEmpty {
+//                print("Widget: API call timed out, falling back to local data")
+//                self.cancellableStorage.cancellables.removeAll()
+//                let localData = self.dashboardService.getLocalTotalAmount(year: year, month: month)
+//                completion(localData)
+//            }
+//        }
+    }
+}
+
+// Add a reference type wrapper for cancellables
+class CancellableStorage {
+    var cancellables = Set<AnyCancellable>()
 }
 
 struct Private_ExchangeEntryView : View {
@@ -77,47 +135,21 @@ struct Private_ExchangeEntryView : View {
         return difference > 0 ? .green : (difference < 0 ? .red : .primary)
     }
     
-    private func formatCurrency(_ amount: Double) -> String {
-        // Convert from cents to dollars
-        let dollarAmount = amount / 100.0
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencyCode = "UAH" // Change as needed
-        
-        return formatter.string(from: NSNumber(value: abs(dollarAmount))) ?? "$\(abs(dollarAmount))"
-    }
-    
-    private func formatMonth(_ month: Int) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM"
-        
-        var components = DateComponents()
-        components.month = month + 1 // Adjust month for correct display
-        
-        if let date = Calendar.current.date(from: components) {
-            return dateFormatter.string(from: date)
-        }
-        
-        return "\(month + 1)"
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            
-            // Display dashboard total if available
-            if let total = entry.dashboardTotal {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(DashboardUtils.formatMonth(total.month))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    Text(DashboardUtils.formatCurrency(total.totalAmount))
-                        .font(.subheadline)
-                        .fontWeight(.bold)
+            if let dashboardTotal = entry.dashboardTotal {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(DashboardUtils.formatCurrency(dashboardTotal.totalAmount))
+                        .font(.system(size: 16, weight: .bold))
+                    
+                    HStack {
+                        Text("\(DashboardUtils.formatMonth(dashboardTotal.month)), \(dashboardTotal.year)")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                        Spacer()
+                    }
                 }
-            } else {
-                Text("Failed to fetch dashboard total")
-                    .font(.footnote)
+                .padding(.bottom, 10)
             }
             
             Divider()

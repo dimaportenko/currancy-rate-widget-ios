@@ -45,31 +45,13 @@ struct DashboardUtils {
         return formatter
     }
     
-    /// Fetches total amount data from CoreData
-    static func fetchDashboardTotal(from context: NSManagedObjectContext) -> TotalAmountResponse? {
+    /// Constructs a current date-based period string (e.g., "June 2023")
+    static func currentPeriodString() -> String {
         let calendar = Calendar.current
         let currentDate = Date()
         let year = calendar.component(.year, from: currentDate)
         let month = calendar.component(.month, from: currentDate) - 1
         
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DashboardTotalAmount")
-        fetchRequest.predicate = NSPredicate(format: "year == %d AND month == %d", year, month)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastUpdated", ascending: false)]
-        fetchRequest.fetchLimit = 1
-        
-        do {
-            let results = try context.fetch(fetchRequest)
-            if let result = results.first {
-                let amount = result.value(forKey: "amount") as! Double
-                let year = result.value(forKey: "year") as! Int
-                let month = result.value(forKey: "month") as! Int
-                
-                return TotalAmountResponse(totalAmount: amount, year: year, month: month)
-            }
-            return nil
-        } catch {
-            print("Error fetching dashboard total amount: \(error)")
-            return nil
-        }
+        return "\(formatMonth(month)) \(year)"
     }
 } 

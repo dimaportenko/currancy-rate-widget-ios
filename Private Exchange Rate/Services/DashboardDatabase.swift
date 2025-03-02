@@ -13,7 +13,7 @@ class DashboardDatabase {
     
     private init() {}
     
-    private var persistentContainer: NSPersistentContainer = {
+    var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "CurrencyRateModel")
         let groupID = "group.com.dimaportenko.privateexchangerate.Private-Exchange-Rate.sharedcontainer"
         if let url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupID) {
@@ -29,7 +29,7 @@ class DashboardDatabase {
         return container
     }()
     
-    private var context: NSManagedObjectContext {
+    var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
@@ -53,30 +53,31 @@ class DashboardDatabase {
     // MARK: - Fetch TotalAmount
     
     func fetchTotalAmount(year: Int? = nil, month: Int? = nil) -> TotalAmountResponse? {
-        if let year = year, let month = month {
-            // If specific year/month requested
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DashboardTotalAmount")
-            fetchRequest.predicate = NSPredicate(format: "year == %d AND month == %d", year, month)
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastUpdated", ascending: false)]
-            fetchRequest.fetchLimit = 1
-            
-            do {
-                let results = try context.fetch(fetchRequest)
-                if let result = results.first {
-                    let amount = result.value(forKey: "amount") as! Double
-                    let year = result.value(forKey: "year") as! Int
-                    let month = result.value(forKey: "month") as! Int
-                    
-                    return TotalAmountResponse(totalAmount: amount, year: year, month: month)
-                }
-                return nil
-            } catch {
-                print("Error fetching total amount: \(error)")
-                return nil
+        // If specific year/month requested, use that
+        // Otherwise, use current month/year
+        let calendar = Calendar.current
+        let currentDate = Date()
+        let fetchYear = year ?? calendar.component(.year, from: currentDate)
+        let fetchMonth = month ?? calendar.component(.month, from: currentDate) - 1
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DashboardTotalAmount")
+        fetchRequest.predicate = NSPredicate(format: "year == %d AND month == %d", fetchYear, fetchMonth)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastUpdated", ascending: false)]
+        fetchRequest.fetchLimit = 1
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            if let result = results.first {
+                let amount = result.value(forKey: "amount") as! Double
+                let year = result.value(forKey: "year") as! Int
+                let month = result.value(forKey: "month") as! Int
+                
+                return TotalAmountResponse(totalAmount: amount, year: year, month: month)
             }
-        } else {
-            // If no specific year/month, use the utility function
-            return DashboardUtils.fetchDashboardTotal(from: context)
+            return nil
+        } catch {
+            print("Error fetching total amount: \(error)")
+            return nil
         }
     }
     
