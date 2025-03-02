@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		71312A282D73C29800D24AB3 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 71312A272D73C29800D24AB3 /* KeychainAccess */; };
+		71312A2B2D745CA400D24AB3 /* DashboardUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71312A292D745CA400D24AB3 /* DashboardUtils.swift */; };
+		71312A2C2D745CA400D24AB3 /* DashboardUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71312A292D745CA400D24AB3 /* DashboardUtils.swift */; };
+		71312A2D2D745D3500D24AB3 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9526D2D73C0EC0094F0D5 /* AuthModels.swift */; };
 		71A9526A2D73B71C0094F0D5 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A952692D73B71C0094F0D5 /* DashboardView.swift */; };
 		71A9526C2D73B86C0094F0D5 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9526B2D73B86C0094F0D5 /* UIImage+Extensions.swift */; };
 		71A952752D73C0EC0094F0D5 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A9526D2D73C0EC0094F0D5 /* AuthModels.swift */; };
@@ -88,6 +91,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		71312A292D745CA400D24AB3 /* DashboardUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardUtils.swift; sourceTree = "<group>"; };
 		71A952692D73B71C0094F0D5 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		71A9526B2D73B86C0094F0D5 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		71A9526D2D73C0EC0094F0D5 /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModels.swift; sourceTree = "<group>"; };
@@ -165,6 +169,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		71312A2A2D745CA400D24AB3 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				71312A292D745CA400D24AB3 /* DashboardUtils.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		71A9526E2D73C0EC0094F0D5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +234,7 @@
 				71A9526E2D73C0EC0094F0D5 /* Models */,
 				71A952722D73C0EC0094F0D5 /* Services */,
 				71A952742D73C0EC0094F0D5 /* ViewModels */,
+				71312A2A2D745CA400D24AB3 /* Shared */,
 				71D4CAF62A0AEAF100A3F9CB /* Private Exchange Rate.entitlements */,
 				71E7F6BC2A096852002E042A /* Private-Exchange-Rate-Info.plist */,
 				71A9526B2D73B86C0094F0D5 /* UIImage+Extensions.swift */,
@@ -459,6 +472,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71312A2C2D745CA400D24AB3 /* DashboardUtils.swift in Sources */,
 				71B5A20B2A0AD9BE008584B6 /* CurrencyRateModel.xcdatamodeld in Sources */,
 				71E7F6BE2A0968D2002E042A /* Private_Exchange.swift in Sources */,
 				71D4CAF12A0ADD9200A3F9CB /* CurrencyRatesListView.swift in Sources */,
@@ -502,11 +516,13 @@
 			files = (
 				71B5A20C2A0AD9BE008584B6 /* CurrencyRateModel.xcdatamodeld in Sources */,
 				71E7F6A32A0942E3002E042A /* Private_Exchange.swift in Sources */,
+				71312A2B2D745CA400D24AB3 /* DashboardUtils.swift in Sources */,
 				71D4CAFA2A0AEEF200A3F9CB /* Utils.swift in Sources */,
 				71E7F6A82A0942E4002E042A /* Private_Exchange.intentdefinition in Sources */,
 				71E7F6B92A0946A1002E042A /* CurrencyRateFetcher.swift in Sources */,
 				71E7F69F2A0942E3002E042A /* Private_ExchangeBundle.swift in Sources */,
 				71E7F6A12A0942E3002E042A /* Private_ExchangeLiveActivity.swift in Sources */,
+				71312A2D2D745D3500D24AB3 /* AuthModels.swift in Sources */,
 				71B5A20F2A0ADAA8008584B6 /* CoreDataManager.swift in Sources */,
 				71E7F6B82A09451C002E042A /* CurrencyRate.swift in Sources */,
 			);

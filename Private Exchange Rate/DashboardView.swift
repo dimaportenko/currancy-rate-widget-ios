@@ -151,7 +151,7 @@ struct DashboardView: View {
                 .padding(.vertical)
                 
                 // Last updated info
-                Text("Last updated: \(Date(), formatter: dateFormatter)")
+                Text("Last updated: \(Date(), formatter: DashboardUtils.dateFormatter)")
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
@@ -198,12 +198,7 @@ struct DashboardView: View {
     
     // MARK: - Formatters
     
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter
-    }
+    // Removed dateFormatter as we're now using DashboardUtils.dateFormatter
 }
 
 struct DashboardView_Previews: PreviewProvider {

@@ -53,38 +53,30 @@ class DashboardDatabase {
     // MARK: - Fetch TotalAmount
     
     func fetchTotalAmount(year: Int? = nil, month: Int? = nil) -> TotalAmountResponse? {
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DashboardTotalAmount")
-        
-        // Apply filters if provided
-        var predicates: [NSPredicate] = []
-        if let year = year {
-            predicates.append(NSPredicate(format: "year == %d", year))
-        }
-        if let month = month {
-            predicates.append(NSPredicate(format: "month == %d", month))
-        }
-        
-        if !predicates.isEmpty {
-            fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-        }
-        
-        // Sort by date (most recent first)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastUpdated", ascending: false)]
-        fetchRequest.fetchLimit = 1
-        
-        do {
-            let results = try context.fetch(fetchRequest)
-            if let result = results.first {
-                let amount = result.value(forKey: "amount") as! Double
-                let year = result.value(forKey: "year") as! Int
-                let month = result.value(forKey: "month") as! Int
-                
-                return TotalAmountResponse(totalAmount: amount, year: year, month: month)
+        if let year = year, let month = month {
+            // If specific year/month requested
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DashboardTotalAmount")
+            fetchRequest.predicate = NSPredicate(format: "year == %d AND month == %d", year, month)
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "lastUpdated", ascending: false)]
+            fetchRequest.fetchLimit = 1
+            
+            do {
+                let results = try context.fetch(fetchRequest)
+                if let result = results.first {
+                    let amount = result.value(forKey: "amount") as! Double
+                    let year = result.value(forKey: "year") as! Int
+                    let month = result.value(forKey: "month") as! Int
+                    
+                    return TotalAmountResponse(totalAmount: amount, year: year, month: month)
+                }
+                return nil
+            } catch {
+                print("Error fetching total amount: \(error)")
+                return nil
             }
-            return nil
-        } catch {
-            print("Error fetching total amount: \(error)")
-            return nil
+        } else {
+            // If no specific year/month, use the utility function
+            return DashboardUtils.fetchDashboardTotal(from: context)
         }
     }
     

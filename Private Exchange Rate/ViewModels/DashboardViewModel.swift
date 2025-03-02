@@ -115,27 +115,10 @@ class DashboardViewModel: ObservableObject {
     // MARK: - Helpers
     
     func formatCurrency(_ amount: Double) -> String {
-        // Convert from cents to dollars
-        let dollarAmount = amount / 100.0
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencyCode = "UAH" // Change as needed
-        
-        return formatter.string(from: NSNumber(value: abs(dollarAmount))) ?? "$\(abs(dollarAmount))"
+        return DashboardUtils.formatCurrency(amount, currencyCode: "UAH")
     }
     
     func formatMonth(_ month: Int) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM"
-        
-        var components = DateComponents()
-        components.month = month
-        
-        if let date = Calendar.current.date(from: components) {
-            return dateFormatter.string(from: date)
-        }
-        
-        return "\(month)"
+        return DashboardUtils.formatMonth(month)
     }
 } 
