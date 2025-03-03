@@ -5,11 +5,11 @@
 //  Created by Dmitriy Portenko on 08.05.2023.
 //
 
-import WidgetKit
-import SwiftUI
-import Intents
-import CoreData
 import Combine
+import CoreData
+import Intents
+import SwiftUI
+import WidgetKit
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
@@ -21,14 +21,14 @@ struct SimpleEntry: TimelineEntry {
 struct Provider: IntentTimelineProvider {
     private let dashboardService = DashboardService.shared
     private let cancellableStorage = CancellableStorage()
-    
-    func placeholder(in context: Context) -> SimpleEntry {
+
+    func placeholder(in _: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), currencyRates: nil, dashboardTotal: nil, configuration: ConfigurationIntent())
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
+    func getSnapshot(for configuration: ConfigurationIntent, in _: Context, completion: @escaping (SimpleEntry) -> Void) {
         let currentDate = Date()
-        
+
         // Try to fetch fresh dashboard data first
         fetchLatestDashboardData { dashboardTotal in
             // Fetch currency rates
@@ -44,9 +44,9 @@ struct Provider: IntentTimelineProvider {
         }
     }
 
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
+    func getTimeline(for configuration: ConfigurationIntent, in _: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
         let currentDate = Date()
-        
+
         print("getTimeline")
         // Try to fetch fresh dashboard data first
         fetchLatestDashboardData { dashboardTotal in
@@ -57,35 +57,35 @@ struct Provider: IntentTimelineProvider {
                         CoreDataManager.shared.saveCurrencyRates(rates)
                     }
                 }
-                
+
                 let entry = SimpleEntry(
                     date: currentDate,
                     currencyRates: currencyRates,
                     dashboardTotal: dashboardTotal,
                     configuration: configuration
                 )
-                let nextUpdate = Calendar.current.date(byAdding: .second, value: 20, to: currentDate)!
+                let nextUpdate = Calendar.current.date(byAdding: .minute, value: 60, to: currentDate)!
                 let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
                 completion(timeline)
             }
         }
     }
-    
+
     // Helper method to fetch the latest dashboard data with fallback to local storage
     private func fetchLatestDashboardData(completion: @escaping (TotalAmountResponse?) -> Void) {
         let calendar = Calendar.current
         let currentDate = Date()
         let year = calendar.component(.year, from: currentDate)
         let month = calendar.component(.month, from: currentDate) - 1
-        
+
         // First check if authentication is possible
         guard dashboardService.isAuthenticated() else {
             print("Widget: No authentication token available, using local data only")
-            let localData = self.dashboardService.getLocalTotalAmount(year: year, month: month)
+            let localData = dashboardService.getLocalTotalAmount(year: year, month: month)
             completion(localData)
             return
         }
-        
+
         // Try to get authenticated data from the service
         print("Widget: Start fetching data from API with authentication...")
         dashboardService.fetchTotalAmount(year: year, month: month)
@@ -95,8 +95,7 @@ struct Provider: IntentTimelineProvider {
                 case .finished:
                     // Successfully got data from API, it's handled in receiveValue
                     print("Widget: Successfully got data from API")
-                    break
-                case .failure(let error):
+                case let .failure(error):
                     // On failure, fall back to local data
                     print("Widget: API call failed: \(error), falling back to local data")
                     let localData = self.dashboardService.getLocalTotalAmount(year: year, month: month)
@@ -108,17 +107,17 @@ struct Provider: IntentTimelineProvider {
                 completion(response)
             })
             .store(in: &cancellableStorage.cancellables)
-        
+
         // Add a fallback timer in case the API call takes too long
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 40.0) {
-//            // If we haven't received a response yet, use local data
-//            if !self.cancellableStorage.cancellables.isEmpty {
-//                print("Widget: API call timed out, falling back to local data")
-//                self.cancellableStorage.cancellables.removeAll()
-//                let localData = self.dashboardService.getLocalTotalAmount(year: year, month: month)
-//                completion(localData)
-//            }
-//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 40.0) {
+            // If we haven't received a response yet, use local data
+            if !self.cancellableStorage.cancellables.isEmpty {
+                print("Widget: API call timed out, falling back to local data")
+                self.cancellableStorage.cancellables.removeAll()
+                let localData = self.dashboardService.getLocalTotalAmount(year: year, month: month)
+                completion(localData)
+            }
+        }
     }
 }
 
@@ -127,34 +126,36 @@ class CancellableStorage {
     var cancellables = Set<AnyCancellable>()
 }
 
-struct Private_ExchangeEntryView : View {
+struct Private_ExchangeEntryView: View {
     var entry: Provider.Entry
-    
+
     private func textColor(for rate: CurrencyRate) -> Color {
         let difference = CoreDataManager.shared.rateDifference(for: rate.ccy)
         return difference > 0 ? .green : (difference < 0 ? .red : .primary)
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             if let dashboardTotal = entry.dashboardTotal {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(DashboardUtils.formatCurrency(dashboardTotal.totalAmount))
                         .font(.system(size: 16, weight: .bold))
-                    
-                    HStack {
-                        Text("\(DashboardUtils.formatMonth(dashboardTotal.month)), \(dashboardTotal.year)")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                    }
+                    Text(entry.date, formatter: DashboardUtils.dateFormatter)
+                        .font(.caption2)
+
+//                    HStack {
+//                        Text("\(DashboardUtils.formatMonth(dashboardTotal.month)), \(dashboardTotal.year)")
+//                            .font(.caption2)
+//                            .foregroundColor(.secondary)
+//                        Spacer()
+//                    }
                 }
                 .padding(.bottom, 10)
             }
-            
+
             Divider()
                 .padding(.vertical, 4)
-            
+
             // Currency rates section
             if let currencyRates = entry.currencyRates {
                 ForEach(currencyRates, id: \.ccy) { rate in
@@ -193,8 +194,9 @@ struct Private_Exchange_Previews: PreviewProvider {
         Private_ExchangeEntryView(entry: SimpleEntry(
             date: Date(),
             currencyRates: nil,
-            dashboardTotal: TotalAmountResponse(totalAmount: 123456, year: 2023, month: 5),
-            configuration: ConfigurationIntent())
+            dashboardTotal: TotalAmountResponse(totalAmount: 123_456, year: 2023, month: 5),
+            configuration: ConfigurationIntent()
+        )
         )
         .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
